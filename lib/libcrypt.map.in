@@ -31,11 +31,11 @@ xcrypt_gensalt_r	-		XCRYPT_2.0:alt:glibc:owl:suse:yes
 
 # Deprecated interfaces, POSIX and otherwise; also present in GNU libc
 # since 2.0
-encrypt			-		GLIBC_2.0
-encrypt_r		-		GLIBC_2.0
-setkey			-		GLIBC_2.0
-setkey_r		-		GLIBC_2.0
-fcrypt			-		GLIBC_2.0
+encrypt			-		GLIBC_2.0:musl
+encrypt_r		-		GLIBC_2.0:musl
+setkey			-		GLIBC_2.0:musl
+setkey_r		-		GLIBC_2.0:musl
+fcrypt			-		GLIBC_2.0:musl
 
 # This determines the ordering of the version chain.  Each symbol
 # version that appears above must also appear in this list, and to

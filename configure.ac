@@ -358,6 +358,7 @@ AC_ARG_ENABLE([obsolete-api],
         [When set to "yes", include all compatibility interfaces.
          When set to "alt", include interfaces for compatibility with ALT.
          When set to "glibc", include interfaces for compatibility with glibc.
+         When set to "musl", include obsolete interfaces for musl's integrated libxcrypt.
          When set to "owl", include interfaces for compatibility with Owl.
          When set to "suse", include interfaces for compatibility with SUSE.
          When set to "no", do not include any compatibility definitions at all,
@@ -373,6 +374,10 @@ AC_ARG_ENABLE([obsolete-api],
             enable_obsolete_api=1
             enable_compat_suse=0
             COMPAT_ABI=${enableval} ;;
+        musl)
+          enable_obsolete_api=1
+          enable_compat_suse=0
+          COMPAT_ABI=${enableval} ;;
         yes|suse)
             enable_obsolete_api=1
             enable_compat_suse=1
@@ -491,11 +496,15 @@ if test $enable_obsolete_api = 1; then
       AC_MSG_ERROR([libxcrypt port to $host is incomplete])
     ;;
     XCRYPT_2.0)
-      SYMVER_MIN=XCRYPT_2.0
-      enable_obsolete_api=0
-      enable_obsolete_api_enosys=0
-      enable_compat_suse=0
-      COMPAT_API=no
+      if test x"$COMPAT_ABI" = xmusl; then
+        SYMVER_MIN=GLIBC_2.0
+      else
+        SYMVER_MIN=XCRYPT_2.0
+        enable_obsolete_api=0
+        enable_obsolete_api_enosys=0
+        enable_compat_suse=0
+        COMPAT_API=no
+      fi
     ;;
     *)
       SYMVER_MIN=GLIBC_2.0
